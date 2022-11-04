@@ -83,18 +83,30 @@ function handleClickNewCatForm(event) {
 //Adicionar nuevo gatito
 function addNewKitten(event) {
     event.preventDefault();
-    const valueDesc = inputDesc.value;
-    const valuePhoto = inputPhoto.value;
-    const valueName = inputName.value;
-    const valueRace = inputRace.value;
-    if (valueDesc === "" && valuePhoto === "" && valueName === "") {
+    const newKittenDataObject = {
+        desc : inputDesc.value,
+        photo : inputPhoto.value,
+        name : inputName.value,
+        race : inputRace.value,
+    }
+
+    if (inputDesc.value === "" && inputPhoto.value === "" && inputName.value === "") {
         labelMesageError.innerHTML = "Debe rellenar todos los valores";
     } else {
-        if (valueDesc !== "" && valuePhoto !== "" && valueName !== "" && valueRace === "") {
-            labelMesageError.innerHTML = "";
-        }
+        labelMesageError.innerHTML = "Mola! Un nuevo gatito en Adalab!";
+        kittenDataList.push(newKittenDataObject); //añade el gatito
+        renderKittenList(kittenDataList); // pinto el gatito
+        emptyNewKitten();
     }
 }
+
+function emptyNewKitten() {
+    inputDesc.value = '';
+    inputPhoto.value = '';
+    inputName.value = '';
+    inputDesc.Race = '';
+}
+
 //Cancelar la búsqueda de un gatito
 function cancelNewKitten(event) {
     event.preventDefault();
@@ -105,15 +117,20 @@ function cancelNewKitten(event) {
 }
 
 //Filtrar por descripción
-function filterKitten(event) {
+function filterKitten(event) { //not yet working
     event.preventDefault();
     const descrSearchText = input_search_desc.value;
     listElement.innerHTML = "";
-    for (const kittenItem of kittenDataList) {
-        if (kittenItem.desc.includes(descrSearchText)) {
-            listElement.innerHTML += renderKitten(kittenItem);
-        }
-    }
+
+    const kitten = kittenDataList.filter((eachName)=> eachName.toLowerCase().includes(descrSearchText.toLowerCase()));
+    
+
+    listElement.innerHTML += renderKitten(filter);
+    // for (const kittenItem of kittenDataList) {
+    //     if (kittenItem.desc.includes(descrSearchText)) {
+    //         listElement.innerHTML += renderKitten(kittenItem);
+    //     }
+    // }
 }
 
 //Mostrar el litado de gatitos en ell HTML

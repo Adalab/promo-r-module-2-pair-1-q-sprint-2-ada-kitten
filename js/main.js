@@ -20,7 +20,7 @@ const inputRace = document.querySelector('.js-input-race');
 const kittenData_1 = {
     image: "https://ychef.files.bbci.co.uk/976x549/p07ryyyj.jpg",
     name: "Anastacio",
-    desc: "Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
+    desc: "borde Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
     race: "British Shorthair",
 };
 const kittenData_2 = {
@@ -32,7 +32,7 @@ const kittenData_2 = {
 const kittenData_3 = {
     image: "https://images.emedicinehealth.com/images/article/main_image/cat-scratch-disease.jpg",
     name: "Cielo",
-    desc: "Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
+    desc: " borde  Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
     race: "British Shorthair",
 };
 
@@ -84,10 +84,10 @@ function handleClickNewCatForm(event) {
 function addNewKitten(event) {
     event.preventDefault();
     const newKittenDataObject = {
-        desc : inputDesc.value,
-        photo : inputPhoto.value,
-        name : inputName.value,
-        race : inputRace.value,
+        desc: inputDesc.value,
+        photo: inputPhoto.value,
+        name: inputName.value,
+        race: inputRace.value,
     }
 
     if (inputDesc.value === "" && inputPhoto.value === "" && inputName.value === "") {
@@ -117,15 +117,29 @@ function cancelNewKitten(event) {
 }
 
 //Filtrar por descripción
-function filterKitten(event) { //not yet working
+function filterKitten() { //not yet working
+
+    // function filterKitten(ev) {
+    //     //Completa el código:
+    //     //Haz un filter anidado sobre el listado de gatitos
+    //     const kittenListFiltered = kittenDataList.
+    //           .filter()
+    //           .filter();
+    //     //Vuelve a pintar el listado de gatitos filtrados en el HTML.
+    //     renderKittenList(kittenListFiltered);
+    //   }
     event.preventDefault();
-    const descrSearchText = input_search_desc.value;
+    const descrSearchText = input_search_desc.value.toLowerCase();
+    const raceSearchText = inputRace.value.toLowerCase();
     listElement.innerHTML = "";
 
-    const kitten = kittenDataList.filter((eachName)=> eachName.toLowerCase().includes(descrSearchText.toLowerCase()));
-    
+    const kitten = kittenDataList.filter((pepino) => pepino.desc.toLowerCase().includes(descrSearchText)).filter((pepino) => pepino.race.toLowerCase().includes(raceSearchText));
+    //.includes pregunta si la variable incluye lo que le pasamos entre paréntesis --> molaría que se llamase "isIncluding"
+    //podemos anidar .filter de modo que hereden el filtro anterior y que equivalga a en un if hacer &&
 
-    listElement.innerHTML += renderKitten(filter);
+
+    listElement.innerHTML += renderKitten(kitten[1]); //recibe una array en lugar de un objeto, puede ser?
+    //funciona con el 0/1 pero no con el 2 ¿por qué?
     // for (const kittenItem of kittenDataList) {
     //     if (kittenItem.desc.includes(descrSearchText)) {
     //         listElement.innerHTML += renderKitten(kittenItem);

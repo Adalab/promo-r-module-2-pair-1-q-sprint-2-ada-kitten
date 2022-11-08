@@ -17,26 +17,27 @@ const inputRace = document.querySelector('.js-input-race');
 
 
 //Objetos con cada gatito
-const kittenData_1 = {
-    image: "https://ychef.files.bbci.co.uk/976x549/p07ryyyj.jpg",
-    name: "Anastacio",
-    desc: "borde Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
-    race: "British Shorthair",
-};
-const kittenData_2 = {
-    image: "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/newscms/2019_39/3021711/190923-cat-pet-stock-cs-1052a.jpg",
-    name: "Fiona",
-    desc: "Juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
-    race: "British Shorthair",
-};
-const kittenData_3 = {
-    image: "https://images.emedicinehealth.com/images/article/main_image/cat-scratch-disease.jpg",
-    name: "Cielo",
-    desc: " borde  Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
-    race: "British Shorthair",
-};
+// const kittenData_1 = {
+//     image: "https://ychef.files.bbci.co.uk/976x549/p07ryyyj.jpg",
+//     name: "Anastacio",
+//     desc: "borde Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
+//     race: "British Shorthair",
+// };
+// const kittenData_2 = {
+//     image: "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/newscms/2019_39/3021711/190923-cat-pet-stock-cs-1052a.jpg",
+//     name: "Fiona",
+//     desc: "Juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
+//     race: "British Shorthair",
+// };
+// const kittenData_3 = {
+//     image: "https://images.emedicinehealth.com/images/article/main_image/cat-scratch-disease.jpg",
+//     name: "Cielo",
+//     desc: " borde  Ruiseño, juguetón, le guta estar tranquilo y que nadie le moleste. Es una maravilla acariciarle!",
+//     race: "British Shorthair",
+// };
 
-const kittenDataList = [kittenData_1, kittenData_2, kittenData_3];
+let kittenDataList = [];
+// const kittenDataList = [kittenData_1, kittenData_2, kittenData_3];
 
 //Funciones
 function renderKitten(kittenData) {
@@ -137,8 +138,9 @@ function filterKitten() { //not yet working
     //.includes pregunta si la variable incluye lo que le pasamos entre paréntesis --> molaría que se llamase "isIncluding"
     //podemos anidar .filter de modo que hereden el filtro anterior y que equivalga a en un if hacer &&
 
+    renderKittenList(kitten);
 
-    listElement.innerHTML += renderKitten(kitten[1]); //recibe una array en lugar de un objeto, puede ser?
+    // listElement.innerHTML += renderKitten(kitten[1]);
     //funciona con el 0/1 pero no con el 2 ¿por qué?
     // for (const kittenItem of kittenDataList) {
     //     if (kittenItem.desc.includes(descrSearchText)) {
@@ -146,9 +148,23 @@ function filterKitten() { //not yet working
     //     }
     // }
 }
+const GITHUB_USER = 'Rpg87';
+const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
 
-//Mostrar el litado de gatitos en ell HTML
-renderKittenList(kittenDataList);
+fetch(SERVER_URL, {
+    method: 'GET',
+    headers: {'Content-Type': 'application/json'},
+  }) 
+    .then (response => response.json())
+    .then (data => {
+        console.log(data);
+        kittenDataList = data.results;
+        renderKittenList(kittenDataList);
+})
+
+
+//Mostrar el listado de gatitos en el HTML
+// renderKittenList(kittenDataList);
 
 //Eventos
 linkNewFormElememt.addEventListener("click", handleClickNewCatForm);

@@ -151,20 +151,30 @@ function filterKitten() { //not yet working
 const GITHUB_USER = 'Rpg87';
 const SERVER_URL = `https://dev.adalab.es/api/kittens/${GITHUB_USER}`;
 
-fetch(SERVER_URL, {
-    method: 'GET',
-    headers: {'Content-Type': 'application/json'},
-  }) 
-    .then (response => response.json())
-    .then (data => {
-        console.log(data);
-        kittenDataList = data.results;
-        renderKittenList(kittenDataList);
-})
 
 
-//Mostrar el listado de gatitos en el HTML
-// renderKittenList(kittenDataList);
+const kittenListStored = JSON.parse(localStorage.getItem('kittenDataList')); //nonbre e la variable
+
+if (kittenListStored) { //mira en application > Locale Storage la info que tenemos
+    kittenDataList = kittenListStored; //añade los gatetes para que los podamos usar
+    renderKittenList(kittenDataList);
+  } else {
+    fetch(SERVER_URL, { //XHR o fetch en DevTools > Network
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      }) 
+        .then (response => response.json())
+        .then (data => {
+            console.log(data);
+            kittenDataList = data.results;
+            //localStorage.setItem('nombre', deshago el JSON(la info que queremos manejar));
+            localStorage.setItem('kittenDataList', JSON.stringify(kittenDataList));
+            renderKittenList(kittenDataList);
+    })
+    .catch((error) => { //catacrocker en caso de error en el servidor
+        console.error(error);
+      });
+  }
 
 //Eventos
 linkNewFormElememt.addEventListener("click", handleClickNewCatForm);
